@@ -12,12 +12,21 @@
 // Exercise 1. Write a function called keys, which accepts an object and returns an array of all of the keys in the object.
 // IMPORTANT: Do not use the built in Object.keys() function!
 // Examples:
-// let obj = { a: 1, b: 2, c: 3 };
-// keys(obj); // ["a", "b", "c"]
+//let obj = { a: 1, b: 2, c: 3 };
+//keys(obj); // ["a", "b", "c"]
 // let obj2 = { first: 'Matt', last: 'Lane' };
 // keys(obj2); // ["first", "last"]
 // let obj3 = {};
 // keys(obj3); // []
+
+function keys(obj) {
+    let finalArr = [];
+    let newArr = Object.entries(obj);
+    for (let i = 0; i < newArr.length; i++) {
+        finalArr.push(newArr[i][0]);
+    }
+    return finalArr;
+}
 
 // Exercise 2. Write a function called values, which accepts an object and returns an array of all of the values in the object.
 // IMPORTANT: Do not use the built in Object.values() function!
@@ -28,6 +37,17 @@
 // values(obj2); // ["Matt", "Lane", true]
 // let obj3 = {};
 // values(obj3); // []
+
+function values(obj) {
+    let finalArr = [];
+    let newArr = Object.entries(obj);
+    for (let i = 0; i < newArr.length; i++) {
+        for (let j = 1; j < newArr[i].length; j++) {
+            finalArr.push(newArr[i][j]);
+        }
+    }
+    return finalArr;
+}
 
 // Exercise 3. Write a function called entries, which accepts an object and returns an array of arrays of key-value pairs.
 // In other words, each sub-array is an "entry" in the object with two elements: the first element is the key, and the second element is the value.
@@ -42,6 +62,14 @@
 // let obj3 = {};
 // entries(obj3); // []
 
+function entries (obj) {
+    let keys = Object.keys(obj);
+    let newArr = keys.map((element) => {
+        return [element, obj[element]];
+    });
+    return newArr;
+}
+
 // Exercise 4. Write a function called pluck, which takes an array of objects and the name of a key.
 // The function should return an array containing the value associated with that key for each object, or undefined if that key is not present in the object.
 // Examples:
@@ -49,6 +77,18 @@
 // ["Tim", "Matt", "Elie"]
 // pluck([{ name: "Tim", isBoatOwner: true }, { name: "Matt", isBoatOwner: false }, { name: "Elie" }],'isBoatOwner')
 // [true, false, undefined]
+
+function pluck(arr, keyName) {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].hasOwnProperty(keyName)) {
+            newArr.push(arr[i][keyName]);
+        } else {
+            newArr.push(undefined);
+        }
+    }
+    return newArr;
+}
 
 // Exercise 5. Write a function called stringFromObject that generates a string from an object's key/value pairs.
 // The format should be "key = value, key = value".
@@ -60,6 +100,16 @@
 // "name = Elie, job = Instructor, isCatOwner = false"
 // stringFromObject({}); // ""
 
+function stringFromObject(obj) {
+    let allEntries = Object.entries(obj);
+    let finalArr = [];
+    for (let i = 0; i < allEntries.length; i++) {
+        finalArr.push(allEntries[i][0] + " = " + allEntries[i][1]);
+    }
+    let finalStr = finalArr.join(", ");
+    return finalStr;
+    }
+
 // Exercise 6. Write a function called minMaxKeyInObject that accepts an object with numeric keys.*
 // The function should return an array with the following format: [lowestKey, highestKey]
 // Examples:
@@ -67,3 +117,13 @@
 // [1, 10]
 // minMaxKeyInObject({ 1: 'Elie', 4: 'Matt', 2: 'Tim' });
 // [1, 4]
+
+function minMaxKeyInObject(numObj) {
+    let justKeys = Object.keys(numObj);
+    justKeys.sort(function(a, b){
+        return (a - b);
+    });
+
+    let minMax = [Number(justKeys[0]), Number(justKeys[justKeys.length - 1])];
+    return minMax;
+}
